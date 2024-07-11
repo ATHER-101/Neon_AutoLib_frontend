@@ -1,6 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { Box } from "@mui/material";
 
 import Admin from "./Pages/Admin/Admin";
@@ -18,6 +24,9 @@ import RoleAuth from "./Pages/Auth/RoleAuth";
 import AuthFailed from "./Pages/Auth/AuthFailed";
 
 function App() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
   const [user, setUser] = useState<{
     id: string;
     name: string;
@@ -27,60 +36,86 @@ function App() {
   } | null>(null);
   const [loading, setLoading] = useState(true);
 
-  axios.defaults.withCredentials = true;
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
   const fetchAuthStatus = useCallback(() => {
+    if (!accessToken) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     axios
-      .get(`${import.meta.env.VITE_API_BACKEND}/api/auth/status`, {
-        withCredentials: true,
-      })
+      .get(
+        `${import.meta.env.VITE_API_BACKEND}/api/auth/status?accessToken=${accessToken}`
+      )
       .then((response) => {
-        console.log(response.data);
         setUser(response.data.user);
       })
       .catch((error) => {
-        if (error.response.status === 401) {
+        if (error.response && error.response.status === 401) {
+          // Token expired or invalid, attempt to refresh token
           axios
             .post(
               `${import.meta.env.VITE_API_BACKEND}/api/auth/token`,
-              {},
-              {
-                withCredentials: true,
-              }
+              { refreshToken }
             )
             .then((response) => {
-              const { accessToken } = response.data;
+              const { accessToken: newAccessToken } = response.data;
+              setAccessToken(newAccessToken);
+              localStorage.setItem("accessToken", newAccessToken);
 
-              axios.defaults.headers.common[
-                "Authorization"
-              ] = `Bearer ${accessToken}`;
-
+              // Retry fetching user data with new access token
               axios
-                .get(`${import.meta.env.VITE_API_BACKEND}/api/auth/status`, {
-                  withCredentials: true,
-                })
+                .get(
+                  `${import.meta.env.VITE_API_BACKEND}/api/auth/status?accessToken=${newAccessToken}`
+                )
                 .then((response) => {
-                  console.log(response.data);
                   setUser(response.data.user);
                 })
                 .catch((error) => {
-                  console.log(error);
+                  console.error("Error fetching user data after token refresh:", error);
                   setUser(null);
+                })
+                .finally(() => {
+                  setLoading(false);
                 });
             })
             .catch((error) => {
-              console.error("Error refreshing access token", error);
+              console.error("Error refreshing access token:", error);
               setUser(null);
+              setLoading(false);
             });
         } else {
-          console.log(error);
+          console.error("Error fetching auth status:", error);
           setUser(null);
+          setLoading(false);
         }
-      })
-      .finally(() => {
-        setLoading(false);
       });
-  }, []);
+  }, [accessToken, refreshToken]);
+
+  useEffect(() => {
+    let access_token = searchParams.get("accessToken");
+    let refresh_token = searchParams.get("refreshToken");
+
+    if (access_token && refresh_token) {
+      setAccessToken(access_token);
+      setRefreshToken(refresh_token);
+      localStorage.setItem("accessToken", access_token);
+      localStorage.setItem("refreshToken", refresh_token);
+
+      navigate("/", { replace: true });
+    } else {
+      let storedAccessToken = localStorage.getItem("accessToken");
+      let storedRefreshToken = localStorage.getItem("refreshToken");
+
+      if (storedAccessToken && storedRefreshToken) {
+        setAccessToken(storedAccessToken);
+        setRefreshToken(storedRefreshToken);
+      }
+    }
+  }, [searchParams, navigate]);
 
   useEffect(() => {
     fetchAuthStatus();
@@ -97,7 +132,9 @@ function App() {
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-      ></Box>
+      >
+        Loading...
+      </Box>
     );
   }
 

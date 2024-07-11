@@ -3,7 +3,10 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 
 const LogOut = () => {
+
   const logOut = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     window.open(`${import.meta.env.VITE_API_BACKEND}/api/auth/logout`, "_self");
   };
 
