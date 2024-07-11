@@ -30,24 +30,14 @@ function App() {
   axios.defaults.withCredentials = true;
 
   const fetchAuthStatus = useCallback(() => {
-    fetch(`${import.meta.env.VITE_API_BACKEND}/api/auth/status`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setUser(data.user);
+    axios
+      .get(`${import.meta.env.VITE_API_BACKEND}/api/auth/status`, {
+        withCredentials: true,
       })
-      // .catch(error => console.error(error));
-      // axios
-      //   .get(`${import.meta.env.VITE_API_BACKEND}/api/auth/status`, {
-      //     withCredentials: true,
-      //   })
-      //   .then((response) => {
-      //     console.log(response.data);
-      //     setUser(response.data.user);
-      //   })
+      .then((response) => {
+        console.log(response.data);
+        setUser(response.data.user);
+      })
       .catch((error) => {
         if (error.response.status === 401) {
           axios
