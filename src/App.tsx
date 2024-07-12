@@ -10,6 +10,15 @@ import {
 import { Box } from "@mui/material";
 
 import Admin from "./Pages/Admin/Admin";
+import AdminNotifications from "./Pages/Admin/Notifications";
+import AdminFilterBooks from "./Pages/Admin/FilterBooks";
+import AdminHome from "./Pages/Admin/Home";
+import AddBooks from "./Pages/Admin/AddBooks";
+import AdminBook from "./Pages/Admin/Book";
+import AdminUser from './Pages/Admin/User';
+import AdminMoreBooks from './Pages/Admin/MoreBooks';
+import AdminSearch from './Pages/Admin/Search'
+
 import Student from "./Pages/Student/Student";
 import Home from "./Pages/Student/Home";
 import Book from "./Pages/Student/Book";
@@ -165,7 +174,19 @@ function App() {
         <Route
           path="/admin"
           element={user?.role === "admin" ? <Admin /> : <Navigate to="/" />}
-        />
+        >
+          <Route index element={<AdminHome/>} />
+          <Route path="notifications" element={<AdminNotifications />} />
+          <Route path="filter-books" element={<AdminFilterBooks />} />
+          <Route path="add-books" element={<AddBooks />} />
+          <Route path="search" element={<AdminSearch />} />
+          <Route path="book/:book_id" element={<AdminBook />} />
+          <Route path="user/:user_id" element={<AdminUser />} />
+          <Route
+            path="more/:title"
+            element={<AdminMoreBooks />}
+          />
+        </Route>
         <Route
           path="/signin"
           element={user ? <Navigate to="/" /> : <SignIn />}

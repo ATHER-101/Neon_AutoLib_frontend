@@ -1,9 +1,14 @@
+import AdminNavbar from "../../Components/AdminNavbar";
+
+import { Outlet } from "react-router-dom";
+
 const Admin = () => {
   return (
-    <div>
-      Admin
-    </div>
-  )
-}
+    <>
+      <AdminNavbar />
+      <Outlet/>
+    </>
+  );
+};
 
-export default Admin
+export default Admin;
