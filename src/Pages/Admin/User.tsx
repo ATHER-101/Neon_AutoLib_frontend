@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Typography } from "@mui/material";
+import { alpha, Box, Button, Chip, Typography } from "@mui/material";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -53,7 +53,7 @@ const User = () => {
         sx={{
           fontSize: { xs: 25, sm: 35 },
           textWrap: "wrap",
-          mx:{xs:2,sm:3} ,
+          mx: { xs: 2, sm: 3 },
           mt: 2,
         }}
       >
@@ -64,13 +64,13 @@ const User = () => {
         sx={{
           fontSize: 18,
           mb: 1,
-          mx:{xs:2,sm:3} 
+          mx: { xs: 2, sm: 3 },
         }}
       >
         {user?.email}
       </Typography>
 
-      <Box sx={{ mx:{xs:2,sm:3} }}>
+      <Box sx={{ mx: { xs: 2, sm: 3 } }}>
         {user?.recent_genres.map((genre: string) => {
           return (
             <Chip
@@ -84,72 +84,91 @@ const User = () => {
       </Box>
 
       {/* book scroller */}
+      <Box
+        sx={{
+          py: 1,
+          pt: 2,
+          mt: {xs:1,sm:2},
+          px: { xs: 2, sm: 3 },
+          bgcolor: "#FF5733",
+          color: "white",
+        }}
+      >
         <Box
-            sx={{
-            py: 1,
-            pt: 2,
-            px:{xs:2,sm:3}
-            }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-            <Box
-            sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-            }}
-            >
-            <Typography variant="h5" display="inline-block">
-                Currently Issued
-            </Typography>
-            </Box>
-            <Box
-            sx={{
-                width: "100%",
-                overflowX: "auto",
-                overflowY: "hidden",
-                whiteSpace: "nowrap",
-                "&::-webkit-scrollbar": {
-                display: "none", // Hide scrollbar in WebKit-based browsers
-                },
-                msOverflowStyle: "none", // Hide scrollbar in IE and Edge
-                scrollbarWidth: "none", // Hide scrollbar in Firefox
-                mt: 1,
-            }}
-            >
-            {books?.map((book) => {
-                return (
-                <Box
-                    sx={{
-                    display: "inline-block",
-                    width: { xs: "120px", sm: "150px" },
-                    height: { xs: "180px", sm: "225px" },
-                    mr: 2,
-                    }}
-                >
-                    <CoverImg
-                    src={book.cover_img}
-                    alt="Loading..."
-                    fallbackSrc="/loading.jpg"
-                    />
-                    <Typography
-                    sx={{
-                        pt: 1,
-                        width: "100%",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        textWrap: "wrap",
-                        maxHeight: "55px",
-                    }}
-                    >
-                    {book.title}
-                    </Typography>
-                    <Button size="small" variant="outlined" color="error" sx={{mb:2, width:"100%"}}>Return</Button>
-                </Box>
-                );
-            })}
-            </Box>
+          <Typography variant="h5" display="inline-block">
+            Currently Issued
+          </Typography>
         </Box>
-
+        <Box
+          sx={{
+            width: "100%",
+            overflowX: "auto",
+            overflowY: "hidden",
+            whiteSpace: "nowrap",
+            "&::-webkit-scrollbar": {
+              display: "none", // Hide scrollbar in WebKit-based browsers
+            },
+            msOverflowStyle: "none", // Hide scrollbar in IE and Edge
+            scrollbarWidth: "none", // Hide scrollbar in Firefox
+            mt: 1,
+          }}
+        >
+          {books?.map((book) => {
+            return (
+              <Box
+                sx={{
+                  display: "inline-block",
+                  width: { xs: "120px", sm: "150px" },
+                  height: { xs: "180px", sm: "225px" },
+                  mr: 2,
+                }}
+              >
+                <CoverImg
+                  src={book.cover_img}
+                  alt="Loading..."
+                  fallbackSrc="/loading.jpg"
+                />
+                <Typography
+                  sx={{
+                    pt: 1,
+                    px: 0.4,
+                    width: "100%",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    textWrap: "wrap",
+                    height: "55px",
+                  }}
+                >
+                  {book.title}
+                </Typography>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    mb: 3,
+                    mt: 0.5,
+                    width: "100%",
+                    borderColor: "white",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: alpha("#ffffff", 0.08),
+                      borderColor: "white",
+                    },
+                  }}
+                >
+                  Return
+                </Button>
+              </Box>
+            );
+          })}
+        </Box>
+      </Box>
     </Box>
   );
 };
