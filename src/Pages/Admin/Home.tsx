@@ -1,7 +1,7 @@
 import { alpha, Box, Button } from "@mui/material";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdminBookScroller from "../../Components/AdminBookScroller";
 
 interface Books {
@@ -11,6 +11,14 @@ interface Books {
 }
 
 const Home = () => {
+  const navigate = useNavigate();
+  const lastLocation = localStorage.getItem("lastLocation");
+
+  useEffect(()=>{if (lastLocation) {
+    navigate(lastLocation, { replace: true });
+    localStorage.removeItem("lastLocation");
+  }},[])
+
   const [newArrivals, setNewArrivals] = useState<Books[]>([]);
 
   const fetchNewArrivals = useCallback(() => {
@@ -36,13 +44,13 @@ const Home = () => {
         colored={true}
       />
 
-      <Box sx={{p:2}}>
+      <Box sx={{ p: 2 }}>
         <Link to="/admin/add-books">
           <Button
             variant="outlined"
             size="large"
             sx={{
-              width:"100%",
+              width: "100%",
               color: "#FF5733",
               borderColor: "#FF5733",
               "&:hover": {

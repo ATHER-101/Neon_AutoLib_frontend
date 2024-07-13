@@ -162,7 +162,10 @@ function App() {
   useEffect(() => {
     if (
       !user &&
+      location.pathname !== "/" &&
       location.pathname !== "/signin" &&
+      location.pathname !== "/logout" &&
+      location.pathname !== "/auth-failed" &&
       location.pathname !== "/student" &&
       location.pathname !== "/admin"
     ) {
@@ -198,7 +201,7 @@ function App() {
           }
         />
         <Route
-          path="/student/*"
+          path="/student"
           element={
             user?.role === "student" ? (
               <Student notificationCount={notificationCount} />
@@ -230,7 +233,7 @@ function App() {
           />
         </Route>
         <Route
-          path="/admin/*"
+          path="/admin"
           element={
             user?.role === "admin" ? (
               <Admin notificationCount={notificationCount} />

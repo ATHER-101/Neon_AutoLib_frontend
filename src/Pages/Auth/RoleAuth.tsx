@@ -6,12 +6,7 @@ const RoleAuth = ({ role }: { role: string }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const lastLocation = localStorage.getItem("lastLocation");
-
-    if (lastLocation) {
-      localStorage.removeItem("lastLocation");
-      navigate(lastLocation, { replace: true });
-    } else if (role === "admin") {
+    if (role === "admin") {
       navigate("/admin", { replace: true });
     } else if (role === "student") {
       navigate("/student", { replace: true });
