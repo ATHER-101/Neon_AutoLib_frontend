@@ -2,10 +2,10 @@ import AdminNavbar from "../../Components/AdminNavbar";
 
 import { Outlet } from "react-router-dom";
 
-const Admin = () => {
+const Admin = ({notificationCount}:{notificationCount:number}) => {
   return (
     <>
-      <AdminNavbar />
+      <AdminNavbar notificationCount={notificationCount} />
       <Outlet/>
     </>
   );

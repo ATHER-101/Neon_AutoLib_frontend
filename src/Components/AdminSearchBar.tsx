@@ -1,7 +1,7 @@
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, IconButton, TextField } from "@mui/material";
 import { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import debounce from "lodash/debounce";
@@ -22,7 +22,7 @@ const Search = styled("div")(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled("div")(() => ({
+const SearchIconWrapper = styled(IconButton)(() => ({
   padding: "8px 0px 8px 8px",
   position: "absolute",
   pointerEvents: "none",
@@ -63,27 +63,46 @@ const AdminSearchBar = () => {
   const [query, setQuery] = useState<string>("");
   const [options, setOptions] = useState<string[]>([]);
 
-  const fetchOptions = useCallback(debounce(() => {
-    if (query === "") {
-      setOptions([]);
-      return;
-    }
-    axios
-      .get(`${import.meta.env.VITE_API_BACKEND}/api/search-books`, {
-        params: {
-          search: query,
-          limit: 7,
-          title: true,
-        },
-      })
-      .then((response) => {
-        const titles: string[] = response.data.map(
-          (book: { title: string }) => book.title
-        );
-        setOptions(titles);
-      })
-      .catch((error) => console.log(error));
-  },500), [query, setOptions]);
+  const fetchOptions = useCallback(
+    debounce(() => {
+      if (query === "") {
+        setOptions([]);
+        return;
+      }
+      axios
+        .get(`${import.meta.env.VITE_API_BACKEND}/api/search-users`, {
+          params: {
+            search: query,
+            limit: 7,
+            name: true,
+          },
+        })
+        .then((response) => {
+          const names: string[] = response.data.map(
+            (user: { name: string }) => user.name
+          );
+          setOptions(names);
+        })
+        .catch((error) => console.log(error));
+
+      axios
+        .get(`${import.meta.env.VITE_API_BACKEND}/api/search-books`, {
+          params: {
+            search: query,
+            limit: 7,
+            title: true,
+          },
+        })
+        .then((response) => {
+          const titles: string[] = response.data.map(
+            (book: { title: string }) => book.title
+          );
+          setOptions(prevOptions=>[...prevOptions,...titles]);
+        })
+        .catch((error) => console.log(error));
+    }, 500),
+    [query, setOptions]
+  );
 
   useEffect(() => {
     fetchOptions();
@@ -102,7 +121,10 @@ const AdminSearchBar = () => {
     }
   };
 
-  const handleOptionSelect = (_event: React.SyntheticEvent, value: string | null) => {
+  const handleOptionSelect = (
+    _event: React.SyntheticEvent,
+    value: string | null
+  ) => {
     if (value) {
       navigate(`/admin/search?query=${encodeURIComponent(value)}`);
       if (inputRef.current) {

@@ -24,8 +24,8 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   },
 }));
 
-export default function Navbar() {
-  const [notifications, _setNotifications] = useState<number>(4);
+export default function Navbar({notificationCount}:{notificationCount:number}) {
+  // const [notifications, _setNotifications] = useState<number>(4);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -105,7 +105,7 @@ export default function Navbar() {
                 }}
               >
                 <Badge
-                  badgeContent={notifications}
+                  badgeContent={notificationCount}
                   sx={{
                     padding: "1px",
                   }}
@@ -129,7 +129,7 @@ export default function Navbar() {
                 <Badge
                   color="error"
                   variant="dot"
-                  invisible={notifications == 0}
+                  invisible={notificationCount == 0}
                   sx={{ display: { xs: "flex", sm: "none" } }}
                 >
                   <AccountCircle />
@@ -156,7 +156,7 @@ export default function Navbar() {
                     sx={{ display: { xs: "inline-block", sm: "none" } }}
                     onClick={handleClose}
                   >
-                    <StyledBadge badgeContent={notifications} color="error">
+                    <StyledBadge badgeContent={notificationCount} color="error">
                       <Typography sx={{ pr: "15px" }}>Notifications</Typography>
                     </StyledBadge>
                   </MenuItem>

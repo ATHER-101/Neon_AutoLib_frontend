@@ -138,8 +138,10 @@ const Book = () => {
                     key={user.id}
                   >
                     <Link to={`/admin/user/${user.id}`}>
-                      <Paper
+                      <Box
                         sx={{
+                          borderRadius:"5px",
+                          bgcolor:"white",
                           width: "100%",
                           px: 2,
                           py: 1,
@@ -153,7 +155,7 @@ const Book = () => {
                         <Typography sx={{ fontSize: 13, color: "#FF5733" }}>
                           {user.email}
                         </Typography>
-                      </Paper>
+                      </Box>
                     </Link>
                   </Grid>
                 );

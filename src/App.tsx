@@ -6,6 +6,7 @@ import {
   Navigate,
   useNavigate,
   useSearchParams,
+  useLocation,
 } from "react-router-dom";
 import { Box } from "@mui/material";
 
@@ -15,9 +16,9 @@ import AdminFilterBooks from "./Pages/Admin/FilterBooks";
 import AdminHome from "./Pages/Admin/Home";
 import AddBooks from "./Pages/Admin/AddBooks";
 import AdminBook from "./Pages/Admin/Book";
-import AdminUser from './Pages/Admin/User';
-import AdminMoreBooks from './Pages/Admin/MoreBooks';
-import AdminSearch from './Pages/Admin/Search'
+import AdminUser from "./Pages/Admin/User";
+import AdminMoreBooks from "./Pages/Admin/MoreBooks";
+import AdminSearch from "./Pages/Admin/Search";
 
 import Student from "./Pages/Student/Student";
 import Home from "./Pages/Student/Home";
@@ -34,6 +35,7 @@ import AuthFailed from "./Pages/Auth/AuthFailed";
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
 
   const [user, setUser] = useState<{
@@ -44,6 +46,8 @@ function App() {
     recent_genres: string[];
   } | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const [notificationCount, setNotificationCount] = useState<number>(0);
 
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
@@ -57,7 +61,9 @@ function App() {
 
     axios
       .get(
-        `${import.meta.env.VITE_API_BACKEND}/api/auth/status?accessToken=${accessToken}`
+        `${
+          import.meta.env.VITE_API_BACKEND
+        }/api/auth/status?accessToken=${accessToken}`
       )
       .then((response) => {
         setUser(response.data.user);
@@ -66,10 +72,9 @@ function App() {
         if (error.response && error.response.status === 401) {
           // Token expired or invalid, attempt to refresh token
           axios
-            .post(
-              `${import.meta.env.VITE_API_BACKEND}/api/auth/token`,
-              { refreshToken }
-            )
+            .post(`${import.meta.env.VITE_API_BACKEND}/api/auth/token`, {
+              refreshToken,
+            })
             .then((response) => {
               const { accessToken: newAccessToken } = response.data;
               setAccessToken(newAccessToken);
@@ -78,13 +83,18 @@ function App() {
               // Retry fetching user data with new access token
               axios
                 .get(
-                  `${import.meta.env.VITE_API_BACKEND}/api/auth/status?accessToken=${newAccessToken}`
+                  `${
+                    import.meta.env.VITE_API_BACKEND
+                  }/api/auth/status?accessToken=${newAccessToken}`
                 )
                 .then((response) => {
                   setUser(response.data.user);
                 })
                 .catch((error) => {
-                  console.error("Error fetching user data after token refresh:", error);
+                  console.error(
+                    "Error fetching user data after token refresh:",
+                    error
+                  );
                   setUser(null);
                 })
                 .finally(() => {
@@ -130,6 +140,37 @@ function App() {
     fetchAuthStatus();
   }, [fetchAuthStatus]);
 
+  const fetchNotifications = useCallback(() => {
+    if (user) {
+      axios
+        .get(`${import.meta.env.VITE_API_BACKEND}/api/notifications`, {
+          params: {
+            user_id: user.role === "admin" ? "admin" : user.id,
+          },
+        })
+        .then((response) => {
+          setNotificationCount(response.data.length);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [setNotificationCount, user]);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, [user]);
+
+  useEffect(() => {
+    if (
+      !user &&
+      location.pathname !== "/signin" &&
+      location.pathname !== "/student" &&
+      location.pathname !== "/admin"
+    ) {
+      localStorage.setItem("lastLocation", location.pathname + location.search);
+      navigate("/signin");
+    }
+  }, [user, navigate, location]);
+
   if (loading) {
     return (
       <Box
@@ -157,35 +198,60 @@ function App() {
           }
         />
         <Route
-          path="/student"
-          element={user?.role === "student" ? <Student /> : <Navigate to="/" />}
+          path="/student/*"
+          element={
+            user?.role === "student" ? (
+              <Student notificationCount={notificationCount} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         >
           <Route index element={<Home user_id={user?.id} />} />
-          <Route path="notifications" element={<Notifications />} />
+          <Route
+            path="notifications"
+            element={
+              <Notifications
+                setNotificationCount={setNotificationCount}
+                user_id={user?.id}
+              />
+            }
+          />
           <Route path="bookmarks" element={<Bookmarks user_id={user?.id} />} />
           <Route path="search" element={<Search />} />
           <Route path="filter-books" element={<FilterBooks />} />
-          <Route path=":book_id" element={<Book user_id={user?.id} />} />
+          <Route
+            path=":book_id"
+            element={<Book user_name={user?.name} user_id={user?.id} />}
+          />
           <Route
             path="more/:title"
             element={<MoreBooks user_id={user?.id} />}
           />
         </Route>
         <Route
-          path="/admin"
-          element={user?.role === "admin" ? <Admin /> : <Navigate to="/" />}
+          path="/admin/*"
+          element={
+            user?.role === "admin" ? (
+              <Admin notificationCount={notificationCount} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         >
-          <Route index element={<AdminHome/>} />
-          <Route path="notifications" element={<AdminNotifications />} />
+          <Route index element={<AdminHome />} />
+          <Route
+            path="notifications"
+            element={
+              <AdminNotifications setNotificationCount={setNotificationCount} />
+            }
+          />
           <Route path="filter-books" element={<AdminFilterBooks />} />
           <Route path="add-books" element={<AddBooks />} />
           <Route path="search" element={<AdminSearch />} />
           <Route path="book/:book_id" element={<AdminBook />} />
           <Route path="user/:user_id" element={<AdminUser />} />
-          <Route
-            path="more/:title"
-            element={<AdminMoreBooks />}
-          />
+          <Route path="more/:title" element={<AdminMoreBooks />} />
         </Route>
         <Route
           path="/signin"

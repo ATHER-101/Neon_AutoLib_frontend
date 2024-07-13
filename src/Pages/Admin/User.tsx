@@ -1,8 +1,19 @@
-import { alpha, Box, Button, Chip, Typography } from "@mui/material";
+import {
+  alpha,
+  Box,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CoverImg from "../../Components/CoverImg";
+import OTPInput from "../../Components/OTPInput";
 
 interface User {
   id: string;
@@ -22,6 +33,11 @@ const User = () => {
 
   const [user, setUser] = useState<User | null>(null);
   const [books, setBooks] = useState<Books[]>([]);
+
+  const [open, setOpen] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [currentBook, setCurrentBook] = useState<Books | null>(null);
 
   const fetchUser = useCallback(() => {
     axios
@@ -45,6 +61,88 @@ const User = () => {
     fetchUser();
     fetchIssues();
   }, [fetchUser, fetchIssues, user_id]);
+
+  const handleReturn = useCallback(() => {
+    axios
+      .post(`${import.meta.env.VITE_API_BACKEND}/api/issues/return-book`, {
+        user_id,
+        book_id: currentBook?.id,
+      })
+      .then(() => {
+        setBooks((prevBooks) => prevBooks.filter((book) => book.id !== currentBook?.id));
+        setOpen(false);
+        setOtp("");
+        setOtpError("");
+        setCurrentBook(null);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [user_id, currentBook]);
+
+  
+  const handleOtpVerify = useCallback(() => {
+    if (otp.length === 4) {
+      axios
+        .post(`${import.meta.env.VITE_API_BACKEND}/api/verify-otp`, {
+          user_id,
+          book_id: currentBook?.id,
+          otp,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            handleReturn();
+          } else {
+            setOtpError("Invalid OTP");
+          }
+        })
+        .catch((error) => {
+          setOtpError("Failed to verify OTP");
+          console.log(error);
+        });
+    } else {
+      setOtpError("OTP must be 6 digits");
+    }
+  }, [otp, user_id, currentBook, handleReturn]);
+
+
+  const handleReturnClick = (book: Books) => {
+    axios
+      .post(`${import.meta.env.VITE_API_BACKEND}/api/return-otp`, {
+        user_id,
+        book_id: book?.id,
+        book_title: book?.title,
+      })
+      .then(() => {
+        setOpen(true);
+        setCurrentBook(book);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleCancel = () => {
+    if (currentBook) {
+      axios
+        .delete(`${import.meta.env.VITE_API_BACKEND}/api/return-otp`, {
+          data: {
+            user_id,
+            book_id: currentBook.id,
+            book_title: currentBook.title,
+          },
+        })
+        .then(() => {
+          setOpen(false);
+          setOtp("");
+          setOtpError("");
+          setCurrentBook(null);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   return (
     <Box>
@@ -71,16 +169,15 @@ const User = () => {
       </Typography>
 
       <Box sx={{ mx: { xs: 2, sm: 3 } }}>
-        {user?.recent_genres.map((genre: string) => {
-          return (
-            <Chip
-              label={genre}
-              color="error"
-              variant="outlined"
-              sx={{ mb: 1, mr: 1 }}
-            />
-          );
-        })}
+        {user?.recent_genres.map((genre: string) => (
+          <Chip
+            key={genre}
+            label={genre}
+            color="error"
+            variant="outlined"
+            sx={{ mb: 1, mr: 1 }}
+          />
+        ))}
       </Box>
 
       {/* book scroller */}
@@ -88,7 +185,7 @@ const User = () => {
         sx={{
           py: 1,
           pt: 2,
-          mt: {xs:1,sm:2},
+          mt: { xs: 1, sm: 2 },
           px: { xs: 2, sm: 3 },
           bgcolor: "#FF5733",
           color: "white",
@@ -119,56 +216,86 @@ const User = () => {
             mt: 1,
           }}
         >
-          {books?.map((book) => {
-            return (
-              <Box
+          {books?.map((book) => (
+            <Box
+              sx={{
+                display: "inline-block",
+                width: { xs: "120px", sm: "150px" },
+                height: { xs: "180px", sm: "225px" },
+                mr: 2,
+              }}
+              key={book.id}
+            >
+              <CoverImg
+                src={book.cover_img}
+                alt="Loading..."
+                fallbackSrc="/loading.jpg"
+              />
+              <Typography
                 sx={{
-                  display: "inline-block",
-                  width: { xs: "120px", sm: "150px" },
-                  height: { xs: "180px", sm: "225px" },
-                  mr: 2,
+                  pt: 1,
+                  px: 0.4,
+                  width: "100%",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  textWrap: "wrap",
+                  height: "55px",
                 }}
               >
-                <CoverImg
-                  src={book.cover_img}
-                  alt="Loading..."
-                  fallbackSrc="/loading.jpg"
-                />
-                <Typography
-                  sx={{
-                    pt: 1,
-                    px: 0.4,
-                    width: "100%",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    textWrap: "wrap",
-                    height: "55px",
-                  }}
-                >
-                  {book.title}
-                </Typography>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    mb: 3,
-                    mt: 0.5,
-                    width: "100%",
+                {book.title}
+              </Typography>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => handleReturnClick(book)}
+                sx={{
+                  mb: 3,
+                  mt: 0.5,
+                  width: "100%",
+                  borderColor: "white",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: alpha("#ffffff", 0.08),
                     borderColor: "white",
-                    color: "white",
-                    "&:hover": {
-                      backgroundColor: alpha("#ffffff", 0.08),
-                      borderColor: "white",
-                    },
-                  }}
-                >
-                  Return
-                </Button>
-              </Box>
-            );
-          })}
+                  },
+                }}
+              >
+                Return
+              </Button>
+            </Box>
+          ))}
         </Box>
       </Box>
+
+      <Dialog
+        open={open}
+        onClose={(_event, reason) => {
+          if (reason !== "backdropClick") {
+            setOpen(false);
+          }
+        }}
+        disableEscapeKeyDown
+      >
+        <DialogTitle>Enter Consent Code</DialogTitle>
+        <DialogContent sx={{ px: 4, pb: 2 }}>
+          <Box sx={{ pt: 1 }}>
+            <OTPInput otp={otp} setOtp={setOtp} />
+          </Box>
+          {otpError !== "" && (
+            <Typography color="error" pt={0.5}>
+              {otpError}
+            </Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button sx={{ color: "#FF5733" }} onClick={handleCancel}>
+            Cancel
+          </Button>
+          <Button sx={{ color: "#FF5733" }} onClick={handleOtpVerify}>
+            Verify
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
