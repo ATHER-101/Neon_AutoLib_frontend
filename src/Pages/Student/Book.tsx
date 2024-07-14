@@ -140,9 +140,6 @@ const Book = ({
         .then((response) => {
           if (response.status === 200) {
             handleIssue();
-            setOpen(false);
-            setOtp("");
-            setOtpError("");
           } else {
             setOtpError("Invalid OTP");
           }
@@ -171,8 +168,25 @@ const Book = ({
         .catch((error) => {
           return console.log(error);
         });
+
+      axios
+        .delete(`${import.meta.env.VITE_API_BACKEND}/api/notifications`, {
+          data: {
+            user_id: `admin`,
+            title: `Issue Request by ${user_name}`,
+            description: `Consent Code for issueing ${book?.title} by ${user_name} is [${otp}]`,
+          },
+        })
+        .then(() => {
+          setOpen(false);
+          setOtp("");
+          setOtpError("");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-  }, [book_id, issued, user_id]);
+  }, [book_id, issued, user_id, otp]);
 
   const handleIssueClick = () => {
     axios

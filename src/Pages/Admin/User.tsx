@@ -68,8 +68,22 @@ const User = () => {
         user_id,
         book_id: currentBook?.id,
       })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios
+      .delete(`${import.meta.env.VITE_API_BACKEND}/api/notifications`, {
+        data: {
+          user_id,
+          title: `Return Request for ${currentBook?.title}`,
+          description: `Consent Code for returning ${currentBook?.title} is [${otp}]`,
+        },
+      })
       .then(() => {
-        setBooks((prevBooks) => prevBooks.filter((book) => book.id !== currentBook?.id));
+        setBooks((prevBooks) =>
+          prevBooks.filter((book) => book.id !== currentBook?.id)
+        );
         setOpen(false);
         setOtp("");
         setOtpError("");
@@ -78,9 +92,8 @@ const User = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [user_id, currentBook]);
+  }, [user_id, currentBook,otp]);
 
-  
   const handleOtpVerify = useCallback(() => {
     if (otp.length === 4) {
       axios
@@ -104,7 +117,6 @@ const User = () => {
       setOtpError("OTP must be 6 digits");
     }
   }, [otp, user_id, currentBook, handleReturn]);
-
 
   const handleReturnClick = (book: Books) => {
     axios

@@ -40,7 +40,7 @@ const LogOut = () => {
             elevation={6}
             sx={{
               p: 2,
-              height: { xs: "50%", sm: "70%" },
+              height: {xs:"80vw",sm:"70%"},
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
