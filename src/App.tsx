@@ -53,7 +53,7 @@ function App() {
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
   const fetchAuthStatus = useCallback(() => {
-    if (!accessToken) {
+    if (!refreshToken) {
       setUser(null);
       setLoading(false);
       return;
@@ -71,6 +71,7 @@ function App() {
       .catch((error) => {
         if (error.response && error.response.status === 401) {
           // Token expired or invalid, attempt to refresh token
+          console.log(refreshToken);
           axios
             .post(`${import.meta.env.VITE_API_BACKEND}/api/auth/token`, {
               refreshToken,
@@ -129,16 +130,14 @@ function App() {
       let storedAccessToken = localStorage.getItem("accessToken");
       let storedRefreshToken = localStorage.getItem("refreshToken");
 
-      if (storedAccessToken && storedRefreshToken) {
-        setAccessToken(storedAccessToken);
-        setRefreshToken(storedRefreshToken);
-      }
+      setAccessToken(storedAccessToken);
+      setRefreshToken(storedRefreshToken);
     }
-  }, [searchParams, navigate]);
+  });
 
   useEffect(() => {
     fetchAuthStatus();
-  }, [fetchAuthStatus]);
+  }, [accessToken, refreshToken, fetchAuthStatus]);
 
   const fetchNotifications = useCallback(() => {
     if (user) {
@@ -160,15 +159,7 @@ function App() {
   }, [user]);
 
   useEffect(() => {
-    if (
-      !user &&
-      location.pathname !== "/" &&
-      location.pathname !== "/signin" &&
-      location.pathname !== "/logout" &&
-      location.pathname !== "/auth-failed" &&
-      location.pathname !== "/student" &&
-      location.pathname !== "/admin"
-    ) {
+    if (!user && location.pathname !== "/" && location.pathname !== "/signin") {
       localStorage.setItem("lastLocation", location.pathname + location.search);
       navigate("/signin");
     }
@@ -186,7 +177,6 @@ function App() {
           backgroundPosition: "center",
         }}
       >
-        Loading...
       </Box>
     );
   }

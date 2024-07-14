@@ -14,10 +14,12 @@ const Home = () => {
   const navigate = useNavigate();
   const lastLocation = localStorage.getItem("lastLocation");
 
-  useEffect(()=>{if (lastLocation) {
-    navigate(lastLocation, { replace: true });
-    localStorage.removeItem("lastLocation");
-  }},[])
+  useEffect(() => {
+    if (lastLocation) {
+      navigate(lastLocation, { replace: true });
+      localStorage.removeItem("lastLocation");
+    }
+  }, [lastLocation, navigate]);
 
   const [newArrivals, setNewArrivals] = useState<Books[]>([]);
 

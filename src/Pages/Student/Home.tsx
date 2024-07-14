@@ -18,10 +18,12 @@ const Home = ({ user_id }: { user_id: string | undefined }) => {
   const navigate = useNavigate();
   const lastLocation = localStorage.getItem("lastLocation");
 
-  useEffect(()=>{if (lastLocation) {
-    navigate(lastLocation, { replace: true });
-    localStorage.removeItem("lastLocation");
-  }},[])
+  useEffect(() => {
+    if (lastLocation) {
+      navigate(lastLocation, { replace: true });
+      localStorage.removeItem("lastLocation");
+    }
+  }, [lastLocation, navigate]);
 
   const [issues, setIssues] = useState<Books[]>([]);
   const [newArrivals, setNewArrivals] = useState<Books[]>([]);
