@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import CoverImg from "../../Components/CoverImg";
+import LazyLoadedImage from "../../Components/LazyLoadedImg";
 
 interface Books {
   id: string;
@@ -67,7 +67,7 @@ const MoreBooks = ({ user_id }: { user_id: string | undefined}) => {
           return (
             <Grid item xs={4} sm={2} pb={1} key={book?.id}>
               <Link to={`/student/${book?.id}`}>
-              <CoverImg src={book.cover_img} alt="Loading..." fallbackSrc="/loading.jpg" />
+              <LazyLoadedImage src={book.cover_img} alt="Loading..." fallbackSrc="/loading.jpg" />
                 <Typography
                   variant="body1"
                   component="p"

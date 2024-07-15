@@ -1,11 +1,99 @@
 title,description,cover_img,genre,quantity
-Clean Code,A Handbook of Agile Software Craftsmanship,https://covers.openlibrary.org/b/id/7222246-L.jpg,computer science,10
-Introduction to the Theory of Computation,By Michael Sipser,https://covers.openlibrary.org/b/id/7222247-L.jpg,computer science,10
-The Pragmatic Programmer,Your Journey to Mastery,https://covers.openlibrary.org/b/id/7222248-L.jpg,computer science,10
-Design Patterns,Elements of Reusable Object-Oriented Software,https://covers.openlibrary.org/b/id/7222249-L.jpg,computer science,10
-Artificial Intelligence: A Modern Approach,By Stuart Russell and Peter Norvig,https://covers.openlibrary.org/b/id/7222250-L.jpg,computer science,10
-Introduction to Algorithms,By Thomas H. Cormen Charles E. Leiserson Ronald L. Rivest and Clifford Stein,https://covers.openlibrary.org/b/id/7222251-L.jpg,computer science,10
-You Don't Know JS,By Kyle Simpson,https://covers.openlibrary.org/b/id/7222252-L.jpg,computer science,10
-Grokking Algorithms,An illustrated guide for programmers and other curious people,https://covers.openlibrary.org/b/id/7222253-L.jpg,computer science,10
-Code Complete,A Practical Handbook of Software Construction,https://covers.openlibrary.org/b/id/7222254-L.jpg,computer science,10
-The Mythical Man-Month,Essays on Software Engineering,https://covers.openlibrary.org/b/id/7222255-L.jpg,computer science,10
+A Brief History of Time,By Stephen Hawking,https://picsum.photos/600/900?random=1,physics,10
+The Elegant Universe,By Brian Greene,https://picsum.photos/600/900?random=2,physics,10
+Astrophysics for People in a Hurry,By Neil deGrasse Tyson,https://picsum.photos/600/900?random=3,physics,10
+The Feynman Lectures on Physics,By Richard P. Feynman,https://picsum.photos/600/900?random=4,physics,10
+The Fabric of the Cosmos,By Brian Greene,https://picsum.photos/600/900?random=5,physics,10
+The Universe in a Nutshell,By Stephen Hawking,https://picsum.photos/600/900?random=6,physics,10
+Six Easy Pieces,By Richard P. Feynman,https://picsum.photos/600/900?random=7,physics,10
+Black Holes and Time Warps,By Kip S. Thorne,https://picsum.photos/600/900?random=8,physics,10
+The Order of Time,By Carlo Rovelli,https://picsum.photos/600/900?random=9,physics,10
+Physics of the Impossible,By Michio Kaku,https://picsum.photos/600/900?random=10,physics,10
+Seven Brief Lessons on Physics,By Carlo Rovelli,https://picsum.photos/600/900?random=11,physics,10
+The Grand Design,By Stephen Hawking and Leonard Mlodinow,https://picsum.photos/600/900?random=12,physics,10
+Why Does E=mc2?,By Brian Cox and Jeff Forshaw,https://picsum.photos/600/900?random=13,physics,10
+Quantum Mechanics: The Theoretical Minimum,By Leonard Susskind and Art Friedman,https://picsum.photos/600/900?random=14,physics,10
+An Introduction to Modern Astrophysics,By Bradley W. Carroll and Dale A. Ostlie,https://picsum.photos/600/900?random=15,physics,10
+The Disappearing Spoon,By Sam Kean,https://picsum.photos/600/900?random=16,chemistry,10
+Napoleon's Buttons,By Penny Le Couteur and Jay Burreson,https://picsum.photos/600/900?random=17,chemistry,10
+The Elements,By Theodore Gray,https://picsum.photos/600/900?random=18,chemistry,10
+The Poisoner's Handbook,By Deborah Blum,https://picsum.photos/600/900?random=19,chemistry,10
+Periodic Tales,By Hugh Aldersey-Williams,https://picsum.photos/600/900?random=20,chemistry,10
+Uncle Tungsten,By Oliver Sacks,https://picsum.photos/600/900?random=21,chemistry,10
+The Chemistry Book,By DK,https://picsum.photos/600/900?random=22,chemistry,10
+Stuff Matters,By Mark Miodownik,https://picsum.photos/600/900?random=23,chemistry,10
+The Joy of Chemistry,By Cathy Cobb and Monty L. Fetterolf,https://picsum.photos/600/900?random=24,chemistry,10
+Chemistry: A Very Short Introduction,By Peter Atkins,https://picsum.photos/600/900?random=25,chemistry,10
+The Periodic Table,By Primo Levi,https://picsum.photos/600/900?random=26,chemistry,10
+The Alchemy of Air,By Thomas Hager,https://picsum.photos/600/900?random=27,chemistry,10
+Molecules,By Theodore Gray,https://picsum.photos/600/900?random=28,chemistry,10
+Crucibles: The Story of Chemistry,By Bernard Jaffe,https://picsum.photos/600/900?random=29,chemistry,10
+The Chemical History of a Candle,By Michael Faraday,https://picsum.photos/600/900?random=30,chemistry,10
+The Selfish Gene,By Richard Dawkins,https://picsum.photos/600/900?random=31,biology,10
+The Origin of Species,By Charles Darwin,https://picsum.photos/600/900?random=32,biology,10
+The Gene: An Intimate History,By Siddhartha Mukherjee,https://picsum.photos/600/900?random=33,biology,10
+The Immortal Life of Henrietta Lacks,By Rebecca Skloot,https://picsum.photos/600/900?random=34,biology,10
+Sapiens: A Brief History of Humankind,By Yuval Noah Harari,https://picsum.photos/600/900?random=35,biology,10
+The Emperor of All Maladies,By Siddhartha Mukherjee,https://picsum.photos/600/900?random=36,biology,10
+The Sixth Extinction,By Elizabeth Kolbert,https://picsum.photos/600/900?random=37,biology,10
+Your Inner Fish,By Neil Shubin,https://picsum.photos/600/900?random=38,biology,10
+The Vital Question,By Nick Lane,https://picsum.photos/600/900?random=39,biology,10
+The Blind Watchmaker,By Richard Dawkins,https://picsum.photos/600/900?random=40,biology,10
+The Double Helix,By James D. Watson,https://picsum.photos/600/900?random=41,biology,10
+Life Ascending,By Nick Lane,https://picsum.photos/600/900?random=42,biology,10
+The Tangled Tree,By David Quammen,https://picsum.photos/600/900?random=43,biology,10
+I Contain Multitudes,By Ed Yong,https://picsum.photos/600/900?random=44,biology,10
+The Hidden Life of Trees,By Peter Wohlleben,https://picsum.photos/600/900?random=45,biology,10
+Clean Code,A Handbook of Agile Software Craftsmanship,https://picsum.photos/600/900?random=46,computer science,10
+Introduction to the Theory of Computation,By Michael Sipser,https://picsum.photos/600/900?random=47,computer science,10
+The Pragmatic Programmer,Your Journey to Mastery,https://picsum.photos/600/900?random=48,computer science,10
+Design Patterns,Elements of Reusable Object-Oriented Software,https://picsum.photos/600/900?random=49,computer science,10
+Artificial Intelligence: A Modern Approach,By Stuart Russell and Peter Norvig,https://picsum.photos/600/900?random=50,computer science,10
+Introduction to Algorithms,By Thomas H. Cormen Charles E. Leiserson Ronald L. Rivest and Clifford Stein,https://picsum.photos/600/900?random=51,computer science,10
+You Don't Know JS,By Kyle Simpson,https://picsum.photos/600/900?random=52,computer science,10
+Grokking Algorithms,An illustrated guide for programmers and other curious people,https://picsum.photos/600/900?random=53,computer science,10
+Code Complete,A Practical Handbook of Software Construction,https://picsum.photos/600/900?random=54,computer science,10
+The Mythical Man-Month,Essays on Software Engineering,https://picsum.photos/600/900?random=55,computer science,10
+Dune,By Frank Herbert,https://picsum.photos/600/900?random=56,science fiction,10
+Neuromancer,By William Gibson,https://picsum.photos/600/900?random=57,science fiction,10
+Foundation,By Isaac Asimov,https://picsum.photos/600/900?random=58,science fiction,10
+Snow Crash,By Neal Stephenson,https://picsum.photos/600/900?random=59,science fiction,10
+The Left Hand of Darkness,By Ursula K. Le Guin,https://picsum.photos/600/900?random=60,science fiction,10
+Hyperion,By Dan Simmons,https://picsum.photos/600/900?random=61,science fiction,10
+The Martian,By Andy Weir,https://picsum.photos/600/900?random=62,science fiction,10
+Ender's Game,By Orson Scott Card,https://picsum.photos/600/900?random=63,science fiction,10
+Brave New World,By Aldous Huxley,https://picsum.photos/600/900?random=64,science fiction,10
+The War of the Worlds,By H.G. Wells,https://picsum.photos/600/900?random=65,science fiction,10
+The Diary of a Young Girl,By Anne Frank,https://picsum.photos/600/900?random=66,biography,10
+Steve Jobs,By Walter Isaacson,https://picsum.photos/600/900?random=67,biography,10
+Long Walk to Freedom,By Nelson Mandela,https://picsum.photos/600/900?random=68,biography,10
+Becoming,By Michelle Obama,https://picsum.photos/600/900?random=69,biography,10
+The Wright Brothers,By David McCullough,https://picsum.photos/600/900?random=70,biography,10
+The Glass Castle,By Jeannette Walls,https://picsum.photos/600/900?random=71,biography,10
+Elon Musk,By Ashlee Vance,https://picsum.photos/600/900?random=72,biography,10
+Alexander Hamilton,By Ron Chernow,https://picsum.photos/600/900?random=73,biography,10
+The Immortal Life of Henrietta Lacks,By Rebecca Skloot,https://picsum.photos/600/900?random=74,biography,10
+Into the Wild,By Jon Krakauer,https://picsum.photos/600/900?random=75,biography,10
+Win Friends and Influence People,By Dale Carnegie,https://picsum.photos/600/900?random=76,self-help,10
+The 7 Habits of Highly Effective People,Powerful Lessons in Personal Change,https://picsum.photos/600/900?random=77,self-help,10
+Thinking, Fast and Slow By Daniel Kahneman,https://picsum.photos/600/900?random=78,self-help,10
+The Subtle Art of Not Giving a F*ck,A Counterintuitive Approach to Living a Good Life,https://picsum.photos/600/900?random=79,self-help,10
+You Are a Badass,How to Stop Doubting Your Greatness and Start Living an Awesome Life,https://picsum.photos/600/900?random=80,self-help,10
+The Four Agreements,A Practical Guide to Personal Freedom,https://picsum.photos/600/900?random=81,self-help,10
+Awaken the Giant Within,How to Take Immediate Control of Your Mental Emotional Physical and Financial Destiny!,https://picsum.photos/600/900?random=82,self-help,10
+Man's Search for Meaning,By Viktor E. Frankl,https://picsum.photos/600/900?random=83,self-help,10
+The Hobbit,By J.R.R. Tolkien,https://picsum.photos/600/900?random=84,fantasy,10
+Harry Potter and the Sorcerer's Stone,By J.K. Rowling,https://picsum.photos/600/900?random=85,fantasy,10
+A Game of Thrones,By George R.R. Martin,https://picsum.photos/600/900?random=86,fantasy,10
+The Name of the Wind,By Patrick Rothfuss,https://picsum.photos/600/900?random=87,fantasy,10
+The Way of Kings,By Brandon Sanderson,https://picsum.photos/600/900?random=88,fantasy,10
+Mistborn: The Final Empire,By Brandon Sanderson,https://picsum.photos/600/900?random=89,fantasy,10
+The Lies of Locke Lamora,By Scott Lynch,https://picsum.photos/600/900?random=90,fantasy,10
+Good Omens,By Neil Gaiman and Terry Pratchett,https://picsum.photos/600/900?random=91,fantasy,10
+The Eye of the World,By Robert Jordan,https://picsum.photos/600/900?random=92,fantasy,10
+The Priory of the Orange Tree,By Samantha Shannon,https://picsum.photos/600/900?random=93,fantasy,10
+Uprooted,By Naomi Novik,https://picsum.photos/600/900?random=94,fantasy,10
+The Blade Itself,By Joe Abercrombie,https://picsum.photos/600/900?random=95,fantasy,10
+The Fifth Season,By N.K. Jemisin,https://picsum.photos/600/900?random=96,fantasy,10
+Eragon,By Christopher Paolini,https://picsum.photos/600/900?random=97,fantasy,10
+The Witcher: The Last Wish,By Andrzej Sapkowski,https://picsum.photos/600/900?random=98,fantasy,10

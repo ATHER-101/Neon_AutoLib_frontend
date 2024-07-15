@@ -2,7 +2,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Link } from "react-router-dom";
 import { useCallback } from "react";
-import CoverImg from "./CoverImg";
+import LazyLoadedImage from "./LazyLoadedImg";
 
 interface Books {
   id: string;
@@ -24,7 +24,7 @@ export default function BookScroller({
       .split("_")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
-  },[]);
+  }, []);
 
   if (books.length === 0) return <></>;
 
@@ -35,7 +35,7 @@ export default function BookScroller({
         color: colored ? "white" : "black",
         py: 1,
         pt: 2,
-        px: 2
+        px: 2,
       }}
     >
       <Box
@@ -49,9 +49,7 @@ export default function BookScroller({
           {formatString(title)}
         </Typography>
         <Link to={`/admin/more/${title}`}>
-          <IconButton
-            size="small"
-          >
+          <IconButton size="small">
             <ArrowForwardIcon sx={{ color: colored ? "white" : "black" }} />
           </IconButton>
         </Link>
@@ -81,7 +79,11 @@ export default function BookScroller({
                   mr: 2,
                 }}
               >
-                <CoverImg src={book.cover_img} alt="Loading..." fallbackSrc="/loading.jpg" />
+                <LazyLoadedImage
+                  src={book.cover_img}
+                  alt="Loading..."
+                  fallbackSrc="/loading.jpg"
+                />
                 <Typography
                   sx={{
                     pt: 1,

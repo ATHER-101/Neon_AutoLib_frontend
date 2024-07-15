@@ -2,7 +2,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Link } from "react-router-dom";
 import { useCallback } from "react";
-import CoverImg from "./CoverImg";
+import LazyLoadedImage from "./LazyLoadedImg";
 
 interface Books {
   id: string;
@@ -81,7 +81,7 @@ export default function BookScroller({
                   mr: 2,
                 }}
               >
-                <CoverImg src={book.cover_img} alt="Loading..." fallbackSrc="/loading.jpg" />
+                <LazyLoadedImage src={book.cover_img} alt="Loading..." fallbackSrc="/loading.jpg" />
                 <Typography
                   sx={{
                     pt: 1,
